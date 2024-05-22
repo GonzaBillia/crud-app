@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useState } from 'react'
 
 const initialForm = {
@@ -10,6 +10,14 @@ const initialForm = {
 
 const CrudForm = ({createData, updateData, dataToEdit, setDataToEdit}) => {
     const [form, setForm] = useState(initialForm)
+
+    useEffect(() => {
+        if(dataToEdit){
+            setForm(dataToEdit)
+        } else{
+            setForm(initialForm)
+        }
+    }, [dataToEdit])
 
     const handleChange = (e) => {
         setForm({
@@ -40,7 +48,7 @@ const CrudForm = ({createData, updateData, dataToEdit, setDataToEdit}) => {
 
     return (
         <div>
-            <h3>Agregar</h3>
+            <h3>{dataToEdit ? "Editar Tarea" : "Agregar Tarea"}</h3>
             <form onSubmit={handleSubmit}>
                 <input type="text" name='title' placeholder="title" onChange={handleChange} value={form.title} />
                 <input type="submit" value="Enviar" />
